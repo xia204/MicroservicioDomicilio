@@ -28,6 +28,14 @@ const updateDomicilio = async (id, data) => {
   return await domicilio.update(data);
 };
 
+const updateDomicilioByCurp = async (curp, data) => {
+  const domicilio = await Domicilio.findOne({ where: { ciudadano_curp: curp } });
+  if (!domicilio) return null;
+
+  await domicilio.update(data);
+  return domicilio;
+};
+
 const deleteDomicilio = async (id) => {
   const domicilio = await Domicilio.findByPk(id);
   if (!domicilio) return null;
@@ -35,11 +43,22 @@ const deleteDomicilio = async (id) => {
   return domicilio;
 };
 
+const deleteDomicilioByCurp = async (curp) => {
+  const domicilio = await Domicilio.findOne({ where: { ciudadano_curp: curp } });
+  if (!domicilio) return null;
+
+  await domicilio.destroy();
+  return domicilio;
+};
+
+
 module.exports = {
   getAllDomicilios,
   getDomicilioById,
   getDomicilioByCurp,
   createDomicilio,
   updateDomicilio,
-  deleteDomicilio
+  updateDomicilioByCurp,
+  deleteDomicilio,
+  deleteDomicilioByCurp
 };

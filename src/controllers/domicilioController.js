@@ -53,11 +53,29 @@ async function actualizarDomicilio(req, res) {
   res.json(actualizado);
 }
 
+// domicilioController.js
+async function actualizarDomicilioPorCurp(req, res) {
+  const { curp } = req.params;
+  const actualizado = await domicilioService.updateDomicilioByCurp(curp, req.body);
+
+  if (!actualizado) return res.status(404).json({ message: 'No encontrado' });
+  res.json(actualizado);
+}
+
+
 async function eliminarDomicilio(req, res) {
   const eliminado = await domicilioService.deleteDomicilio(req.params.id);
   if (!eliminado) return res.status(404).json({ message: 'No encontrado' });
   res.json({ message: 'Eliminado correctamente' });
 }
+
+// domicilioController.js
+async function eliminarDomicilioPorCurp(req, res) {
+  const eliminado = await domicilioService.deleteDomicilioByCurp(req.params.curp);
+  if (!eliminado) return res.status(404).json({ message: 'No encontrado' });
+  res.json({ message: 'Eliminado correctamente' });
+}
+
 
 module.exports = {
   crearDomicilio,
@@ -65,5 +83,7 @@ module.exports = {
   obtenerDomicilio,
   obtenerDomicilioPorCurp,
   actualizarDomicilio,
+  actualizarDomicilioPorCurp,
   eliminarDomicilio,
+  eliminarDomicilioPorCurp
 };
